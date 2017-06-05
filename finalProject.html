@@ -1,0 +1,118 @@
+<html>
+<head>
+       <title> CIS451 Final Project</title>
+</head>
+
+<body bgcolor="white">
+
+<h2>Pro Basketball Database Applications</h2>
+
+<h3>CIS 451</h3>
+
+<h3>by Seth Plunkett</h3>
+
+<p>
+Please enter the name of a region("East","West" or "Midwest") 
+<br>
+to see info on teams from that area:
+<p>
+
+<form action="teamByRegion.php" method="POST">
+
+<input type="text" name="state_Location"> <br>
+<input type="submit" value="Team Stats">
+
+<input type="reset" value="erase">
+</form>
+
+<hr>
+
+<p>
+Please enter the name of a team("Celtics","Lakers") 
+<br>
+to view player stats:
+<p>
+
+<form action="table.php" method="POST">
+
+<input type="text" name="team_name"> <br>
+<input type="submit" value="Player Stats">
+
+<input type="reset" value="erase">
+</form>
+
+<hr>
+
+<p>
+Please enter the full name of a fan("George Washington","James Spader") 
+<br>
+to view most expensive purchase:
+<p>
+
+<form action="fanValue.php" method="POST">
+
+<input type="text" name="fan_name"> <br>
+<input type="submit" value="Fan Purchase">
+
+<input type="reset" value="erase">
+</form>
+
+<hr>
+
+
+
+
+Select the button below to view the player performance
+<br>
+index for players of each age:
+<form action="playerPer.php" method="POST">
+  <input type="submit" value="Player PER by Age">
+</form>
+
+<hr>
+Select the button below to view the total points scored
+<br>
+by teams when each referee is officiating:
+<form action="refPointTotal.php" method="POST">
+  <input type="submit" value="Point Total by Ref">
+</form>
+
+<hr>
+Select the button below to view the total championships 
+<br>
+collected by teams from each state and region:
+<form action="champLocations.php" method="POST">
+  <input type="submit" value="Champs by Location">
+</form>
+
+<hr>
+Select the button below to see difference in amount spent by 
+<br>
+fans who are season ticket holders vs fans that are not:
+<form action="seasonTicketHolders.php" method="POST">
+  <input type="submit" value="Type of Fans">
+</form>
+
+<hr>
+Select the button to see a list of all Fans who made purchases,
+<br>
+the total they spent, and the teams they support:
+<form action="fans.php" method="POST">
+  <input type="submit" value="Merch Values">
+</form>
+
+
+
+<p>
+<a href="finalProject.txt" >Contents</a>
+of this page.
+<p>
+<a href="connectData.txt" >connection data</a>,
+kept separately for security reasons.
+
+
+
+
+
+</body>
+</html>
