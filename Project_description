@@ -1,0 +1,146 @@
+Professional Basketball League- 
+Database and Applications
+
+
+
+URL
+Home page- http://ix.cs.uoregon.edu/~splunket/finalProject/finalProject.html
+PHP files:
+http://ix.cs.uoregon.edu/~splunket/finalProject/teamByRegion.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/table.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/fanValue.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/playerPer.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/refPointTotal.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/champLocations.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/seasonTicketHolders.php
+http://ix.cs.uoregon.edu/~splunket/finalProject/fans.php
+
+
+Summary 
+The mini-world being modeled in my project is a professional basketball league modeled after the NBA.  It is centered around a set of teams represented by a city and an organization.  The teams consist of players who play games officiated by referees.  They have a set of fans, some of whom are season ticket holders and may purchase team merchandise.
+
+The application programs for the project provides information such as:
+⁃	player lineups with relevant statistics for each team
+⁃	PER (performance index) for the average player at each age
+⁃	the relationship between a state’s population and the number of championships its teams have produced
+⁃	the points scored in an average game that a specific referee officiates
+⁃	the payroll for a specific team
+⁃	a determination of whether fans that are season ticket holder spend more on merchandise than fans who are not season ticket holder
+
+
+List of Applications - A description of all the desired applications, which tables each effect, and the I/O behavior of each.
+
+1)	A region of the US is inputted by the the user and the city, number of championships, team value and revenue are outputted for each region.  
+Tables affected: State, Team
+2)	A team name is inputted by the user and the players for that team along with each player’s age, contract values, and performance index are outputted.
+Tables affected: Team, Player
+3)	A fan’s name is inputted by the user and the fan’s most expensive purchase and the value of that purchase it outputted.
+Tables affected: Fans, MerchPurchases
+4)	The player performance index for players of each age are outputted.
+Tables affected: Player
+5)	The total points scored by all teams while each referee is officiating are outputted.
+Tables affected: Team, PlaysIn, Game, RefereesIn, Referee
+6)	The total number of championships accrued by teams of each US region and state are outputted.
+Tables affected: Team, State
+7)	The difference between what is spent by fans that are season ticket holders and those that are not is outputted.
+Tables affected: Fans, MerchPurchases
+8)	A list of all fans who made purchases, the total they spent, and the teams they support is outputted.
+Tables affected: Fans, MerchPurchases
+
+
+   	
+User's guide
+Go to the following home page:
+http://ix.cs.uoregon.edu/~splunket/finalProject/finalProject.html
+
+•	Follow the user prompts for the first three applications by submitting an appropriate user value.
+•	For the following five applications, read the description and select the buttons to see result.
+
+
+
+Contents of tables/ Physical design
+
+CREATE TABLE `Team` (
+  `team_name` varchar(45) NOT NULL,
+  `city` varchar(45) NOT NULL,
+  `championships` int(11) NOT NULL,
+  `team_value` int(11) NOT NULL,
+  `revenue` int(11) NOT NULL,
+  `State_state_id` int(11) NOT NULL,
+  PRIMARY KEY (`team_name`),
+  KEY `fk_Teams_State1_idx` (`State_state_id`),
+  CONSTRAINT `fk_Teams_State1` FOREIGN KEY (`State_state_id`) REFERENCES `State` (`state_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `State` (
+  `state_id` int(11) NOT NULL,
+  `state_Name` varchar(45) DEFAULT NULL,
+  `state_Population` varchar(45) DEFAULT NULL,
+  `state_Location` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Player` (
+  `player_id` int(11) NOT NULL,
+  `player_name` varchar(45) DEFAULT NULL,
+  `player_age` int(11) DEFAULT NULL,
+  `contract_yrs` int(11) DEFAULT NULL,
+  `contract_avg` int(11) DEFAULT NULL,
+  `player_per` int(11) DEFAULT NULL,
+  `Teams_team_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`player_id`),
+  KEY `fk_Players_Teams_idx` (`Teams_team_name`),
+  CONSTRAINT `fk_Players_Teams` FOREIGN KEY (`Teams_team_name`) REFERENCES `Team` (`team_name`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `PlaysIn` (
+  `Team_team_name` varchar(45) NOT NULL,
+  `Game_game_id` int(11) NOT NULL,
+  `Point_total` int(11) NOT NULL,
+  PRIMARY KEY (`Team_team_name`,`Game_game_id`),
+  KEY `fk_Plays in_Team1_idx` (`Team_team_name`),
+  KEY `fk_Plays in_Game1_idx` (`Game_game_id`),
+  CONSTRAINT `fk_Plays in_Game1` FOREIGN KEY (`Game_game_id`) REFERENCES `Game` (`game_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Plays in_Team1` FOREIGN KEY (`Team_team_name`) REFERENCES `Team` (`team_name`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Game` (
+  `game_id` int(11) NOT NULL,
+  `game_date` date DEFAULT NULL,
+  `attendance` int(11) DEFAULT NULL,
+  PRIMARY KEY (`game_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `RefereesIn` (
+  `Game_game_id` int(11) NOT NULL,
+  `Referee_referee_id` int(11) NOT NULL,
+  PRIMARY KEY (`Game_game_id`,`Referee_referee_id`),
+  KEY `fk_RefereesIn_Game1_idx` (`Game_game_id`),
+  KEY `fk_RefereesIn_Referee1_idx` (`Referee_referee_id`),
+  CONSTRAINT `fk_RefereesIn_Game1` FOREIGN KEY (`Game_game_id`) REFERENCES `Game` (`game_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_RefereesIn_Referee1` FOREIGN KEY (`Referee_referee_id`) REFERENCES `Referee` (`referee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `MerchPurchases` (
+  `purchase_id` int(11) NOT NULL,
+  `purch_item_name` varchar(45) DEFAULT NULL,
+  `purch_item_value` int(11) DEFAULT NULL,
+  `Fans_fan_id` int(11) NOT NULL,
+  PRIMARY KEY (`purchase_id`),
+  KEY `fk_MerchPurchases_Fans1_idx` (`Fans_fan_id`),
+  CONSTRAINT `fk_MerchPurchases_Fans1` FOREIGN KEY (`Fans_fan_id`) REFERENCES `Fans` (`fan_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Referee` (
+  `referee_id` int(11) NOT NULL,
+  `referee_name` varchar(45) DEFAULT NULL,
+  `referee_yrs_exp` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`referee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+Conclusion
+
+This project allowed me to explore the mini-world of a professional basketball league.  I was particularly interested in how one might look at relationships between players ages and performance, between fans and their loyalty to teams, and by teams and the cities that they represent.
+
+If I had more time, I would populate these table with much more data, all of it real.  At the moment, only the player, team and referee information was taken from real sources, and was extremely limited in quantity.  These limitations make finding significant or valid trends more difficult.  I would also go more deeply into player performance statistics, looking for evidence of the value of traditional statistics versus more modern performance stats to determine player value.  I would also be able to see how much money a team actually might earn from different types of fans, e.g. season ticket holders, infrequent game attendees and more casual fans.
